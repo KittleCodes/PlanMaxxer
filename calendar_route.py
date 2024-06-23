@@ -29,8 +29,8 @@ def calendar_route():
     }
     .hour {
     	background-color: #8282ff;
+        padding: 0px!important;
         border-radius: 10px;
-        padding: 1%;
         box-shadow: 0px 0px 5px 1px #8282ff;
         color: white;
         text-align: center;
@@ -62,6 +62,9 @@ def calendar_route():
   		flex-basis: 100%;
   		height: 0;
 	}
+    .card-header {
+        padding: 0px!important;
+    }
     </style>
   </head>
   <body>
@@ -71,11 +74,11 @@ def calendar_route():
             <a class="nav-link" aria-current="page" href="/">Return Home</a>
         </div>
     </nav>
-    <main class="flex-shrink-0 d-flex justify-content-center" style="padding: 2%;">
+    <main class="flex-shrink-0 d-flex justify-content-center" style="padding: 1%;">
         <div class="container remove-all-margin">
     <div class="card">
         <div class="card-header" style="background-color: #6464e5; color: white;">
-            <h4 id="header" class="card-title">Calendar</h4>
+            <h4 id="header" class="card-title" style="padding:1%;">Calendar</h4>
         </div>
         <div id="calendar" class="card-body" style="overflow-y: auto;background-color: #a8a8ff;">
             <div id="days" class="row flex-nowrap" id="hourly">
@@ -102,10 +105,14 @@ def calendar_route():
                 </div>
             </div>
             <div id="row" class="row flex-nowrap dayrow" id="hourly">
-                <div id="day" class="col hour" id="hour-template" style="display: none;">
-                    <h5 id="date">1</h5>
-                    <p id="events"><b>Today is clear!</b></p>
-                </div>
+                    <div id="day" class="col card hour" id="hour-template" style="display: none;">
+                        <div class="card-header" style="background-color: #6464e5; color: white;">
+                            <h4 id="date" class="card-title">Calendar</h4>
+                        </div>
+                        <div class="card-body">
+                            <p id="events"><b>Today is clear!</b></p>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
