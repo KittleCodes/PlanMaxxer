@@ -52,9 +52,3 @@ Once the application is running, you can navigate through different modules usin
 
 ### Wardrobe Module
 - Organize and keep track of your wardrobe items.
-
-## Acknowledgements
-- **Icons**: 
-  - Weather by Rini Bahtiar from [Noun Project](https://thenounproject.com/browse/icons/term/weather/) (CC BY 3.0)
-  - Calendar by Corner Pixel from [Noun Project](https://thenounproject.com/browse/icons/term/calendar/) (CC BY 3.0)
-  - Wardrobe by MihiMihi from [Noun Project](https://thenounproject.com/browse/icons/term/wardrobe/) (CC BY 3.0)
