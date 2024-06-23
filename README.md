@@ -34,7 +34,7 @@ PlanMaxxer is a Flask web application designed to help users manage their daily 
     ```
 4. Run the application:
     ```bash
-    python app.py
+    python main.py
     ```
 5. Open your browser and go to:
     ```
