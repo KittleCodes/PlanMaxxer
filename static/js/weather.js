@@ -78,7 +78,7 @@ function showDay(current)
     dewpointElement.innerText = current.dew+"°F";
     rainElement.innerText = current.precip+" in";
     rainchanceElement.innerText = current.precipprob+"%";
-    snowElement.innerText = current.snow+"%";
+    snowElement.innerText = current.snow+" in";
     snowdepthElement.innerText = current.snowdepth+" in";
     windgustElement.innerText = current.windgust+" mph";
     windspeedElement.innerText = current.windspeed+" mph";
@@ -129,15 +129,14 @@ function getWeather()
     showHourly(data, 0)
 
     data.days.forEach(dayData => {
-        if (dayData.datetimeEpoch > current.datetimeEpoch) {
-            const dayTime = new Date(dayData.datetimeEpoch*1000);
-            const dayElement = dayTemplateElement.cloneNode(true);
-            dayElement.style = "";
-            dayElement.querySelector('#time').innerText = dayTime.getMonth()+"/"+dayTime.getDate();
-            dayElement.querySelector('#temp').innerText = dayData.temp+"°F";
-            dayElement.querySelector('#status').src = "/static/conditions/"+dayData.icon+".svg";
-            dailyElement.appendChild(dayElement);
-        }
+        const dayTime = new Date(dayData.datetimeEpoch*1000);
+        const dayElement = dayTemplateElement.cloneNode(true);
+        dayElement.style = "";
+        dayElement.querySelector('#time').innerText = dayTime.getMonth()+"/"+dayTime.getDate();
+        dayElement.querySelector('#temp').innerText = dayData.temp+"°F";
+        dayElement.querySelector('#status').src = "/static/conditions/"+dayData.icon+".svg";
+        dailyElement.appendChild(dayElement);
+        dayElement.addEventListener('click', function (event) { addressElement.innerText = data.resolvedAddress; showDay(dayData); showHourly(data, data.days.indexOf(dayData))  });
     });
 }
 
