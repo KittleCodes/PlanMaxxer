@@ -1,5 +1,8 @@
 var $ = (id) => {return document.getElementById(id);}
 
+const loader = $("loader");
+const main = $("main");
+
 const addressElement = $("address");
 const hourlyElement = $("hourly");
 const hourTemplateElement = $("hour-template");
@@ -54,16 +57,18 @@ function degToCompass(num) {
 
 function showHourly(data, day)
 {
+    const hourTemp = hourTemplateElement.cloneNode(true);
+    hourlyElement.innerHTML = "";
+    hourlyElement.appendChild(hourTemp);
+
     data.days[day].hours.forEach(hourData => {
-        if (hourData.datetimeEpoch > current.datetimeEpoch) {
-            const hourTime = new Date(hourData.datetimeEpoch*1000);
-            const hourElement = hourTemplateElement.cloneNode(true);
-            hourElement.style = "";
-            hourElement.querySelector('#time').innerText = formatTime(hourTime);
-            hourElement.querySelector('#temp').innerText = hourData.temp+"°F";
-            hourElement.querySelector('#status').src = "/static/conditions/"+hourData.icon+".svg";
-            hourlyElement.appendChild(hourElement);
-        }
+        const hourTime = new Date(hourData.datetimeEpoch*1000);
+        const hourElement = hourTemplateElement.cloneNode(true);
+        hourElement.style = "";
+        hourElement.querySelector('#time').innerText = formatTime(hourTime);
+        hourElement.querySelector('#temp').innerText = hourData.temp+"°F";
+        hourElement.querySelector('#status').src = "/static/conditions/"+hourData.icon+".svg";
+        hourlyElement.appendChild(hourElement);
     });
 }
 
@@ -88,10 +93,6 @@ function showDay(current)
     visibilityElement.innerText = current.visibility+" mi";
     cloudcoverElement.innerText = current.cloudcover+"%";
     uvindexElement.innerText = current.uvindex;
-
-    hourTemplateElement.querySelector('#time').innerText = formatTime(new Date(current.datetimeEpoch*1000));
-    hourTemplateElement.querySelector('#temp').innerText = current.temp+"°F"
-    hourTemplateElement.querySelector('#status').src = "/static/conditions/"+current.icon+".svg"
 }
 
 function getWeather()
@@ -138,6 +139,9 @@ function getWeather()
         dailyElement.appendChild(dayElement);
         dayElement.addEventListener('click', function (event) { addressElement.innerText = data.resolvedAddress; showDay(dayData); showHourly(data, data.days.indexOf(dayData))  });
     });
+
+    loader.style = "display: none;";
+    main.style = "padding: 2%;";
 }
 
 getWeather();

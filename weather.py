@@ -55,7 +55,8 @@ def weather():
             <a class="nav-link" aria-current="page" href="/">Return Home</a>
         </div>
     </nav>
-    <main class="flex-shrink-0" style="padding: 2%;">
+    <div id="loader" style="position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;width: 100px;height: 100px;"><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div></div>
+    <main id="main" class="flex-shrink-0" style="padding: 2%;display: none;">
     <div class="card">
         <div class="card-header" style="background-color: #6464e5; color: white;">
             <h3 class="card-title" id="address">Address</h3>
@@ -148,7 +149,7 @@ def weather():
         </div>
         <div class="card-body" style="max-height: 300px; overflow-y: auto;background-color: #a8a8ff;">
             <div class="row flex-nowrap" id="hourly">
-                <div class="col hour" id="hour-template">
+                <div class="col hour" id="hour-template" style="display: none;">
                     <h5 id="time">0:00:00</h5>
                     <p id="temp"><b>20°C</b></p>
                     <img id="status" src="">
