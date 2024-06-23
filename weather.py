@@ -68,7 +68,7 @@ def weather():
         </div>
     </nav>
     <div id="loader" style="position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;width: 100px;height: 100px;"><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div></div>
-    <main id="main" class="flex-shrink-0" style="padding: 2%;display: none;">
+    <main id="main" class="flex-shrink-0" style="padding: 1%;display: none;">
     <div class="card">
         <div class="card-header" style="background-color: #6464e5; color: white;">
             <h3 class="card-title" id="address">Address</h3>
