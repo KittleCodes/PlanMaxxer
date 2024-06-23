@@ -35,7 +35,7 @@ def home():
             <div class="card-body">
                 <h5 class="card-title">Calendar</h5>
                 <p class="card-text">View your plans today, create plans, or count the days.</p>
-                <a href="#" class="btn btn-primary">View Calendar</a>
+                <a href="/calendar" class="btn btn-primary">View Calendar</a>
             </div>
             </div>
         </div>
