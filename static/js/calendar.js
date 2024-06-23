@@ -5,6 +5,8 @@ const rowTemp = $("row");
 const dayTemp = $("day");
 const header = $("header");
 
+let dayModal = new bootstrap.Modal('#dayModal', {});
+
 let lastmonth = $("lastmonth");
 let nextmonth = $("nextmonth");
 let lastyear = $("lastyear");
@@ -43,6 +45,7 @@ function fillCalendar(month, year)
         const day = dayTemp.cloneNode(true);
         day.style = "";
         day.querySelector('#date').innerText = "";
+        day.querySelector('#expand').src = "";
         day.querySelector('#events').innerText = "";
         row.appendChild(day);
     }
@@ -70,6 +73,7 @@ function fillCalendar(month, year)
         const day = dayTemp.cloneNode(true);
         day.style = "";
         day.querySelector('#date').innerText = "";
+        day.querySelector('#expand').src = "";
         day.querySelector('#events').innerText = "";
         row.appendChild(day);
     }
@@ -97,3 +101,9 @@ nextyear.onclick = () =>
     viewingYear += 1;
     fillCalendar(viewingMonth, viewingYear);
 }
+
+$("dayModal").addEventListener('show.bs.modal', event => {
+    const parent = event.relatedTarget.parentElement;
+    const child = parent.querySelector('#date');
+    $("modal-date").innerText = child.innerText;
+})
