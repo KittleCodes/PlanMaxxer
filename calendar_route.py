@@ -76,6 +76,23 @@ def calendar_route():
     </nav>
     <main class="flex-shrink-0 d-flex justify-content-center" style="padding: 1%;">
         <div class="container remove-all-margin">
+    <div id="dayModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modal-date" class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Example Event</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header" style="background-color: #6464e5; color: white;">
             <h4 id="header" class="card-title" style="padding:1%;">Calendar</h4>
@@ -107,7 +124,8 @@ def calendar_route():
             <div id="row" class="row flex-nowrap dayrow" id="hourly">
                     <div id="day" class="col card hour" id="hour-template" style="display: none;">
                         <div class="card-header" style="background-color: #6464e5; color: white;">
-                            <h4 id="date" class="card-title">Calendar</h4>
+                            <h4 id="date" class="card-title" style="float: left; display: inline-block;margin-left: 20px;">Calendar</h4>
+                            <img data-bs-toggle="modal" data-bs-target="#dayModal" id="expand" src="/static/icons/expand.svg" style="float: right; width: 20%; display: inline-block;">
                         </div>
                         <div class="card-body">
                             <p id="events"><b>Today is clear!</b></p>
