@@ -5,6 +5,7 @@ app = Flask(__name__)
 import home
 import weather
 import calendar_route
+import database_api
 
 if __name__ == '__main__':
    app.run(debug=True,host="127.0.0.1",port=7575)
