@@ -65,6 +65,21 @@ def calendar_route():
     .card-header {
         padding: 0px!important;
     }
+    .input-group {
+        margin-bottom: 10px;
+    }
+    .input-group-text {
+        background-color: #5757d6;
+        color: white;
+    }
+    .form-control {
+        background-color: #9090ed;
+        color: white;
+    }
+    .form-select {
+        background-color: #9090ed;
+        color: white;
+    }
     </style>
   </head>
   <body>
@@ -79,16 +94,69 @@ def calendar_route():
     <div id="dayModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #6464E5; color: white;">
                 <h5 id="modal-date" class="modal-title">Modal title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>Example Event</p>
+            <div id="events-body" class="modal-body" style="background-color: #8282FF; color: white;">
+                <div id="event-card" class="card hour" style="display: none;">
+                    <div class="card-header">
+                        <h3 id="event-title"></h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="event-description"></p>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+    <div id="addEventModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #6464E5; color: white;">
+                <h5 id="modal-date" class="modal-title">Add Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #8282FF; color: white;">
+                <div class="input-group">
+                    <span class="input-group-text">Name</span>
+                    <input id="in-name" type="text" class="form-control" placeholder="Event Name" aria-label="Name">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Description</span>
+                    <textarea id="in-desc" class="form-control" aria-label="Description"></textarea>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Start Date</span>
+                    <input id="in-date" type="datetime-local" class="form-control" placeholder="Start Date" aria-label="Name">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">End Date</span>
+                    <input id="in-date2" type="datetime-local" class="form-control" placeholder="End Date" aria-label="Name">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">All Day</span>
+                    <input id="in-all_day" class="form-check-input" type="checkbox" value="" style="padding:5px;margin:auto;border:1px outset black;border-radius: 9px;margin-left: 3%;">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Repeat</span>
+                    <select id="in-repeat_option" class="form-select" id="repeat">
+                        <option selected>Never</option>
+                        <option value="1">Daily</option>
+                        <option value="2">Weekly</option>
+                        <option value="3">Monthly</option>
+                        <option value="4">Yearly</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Color</span>
+                    <input id="in-color" type="color" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #6B6BE5;">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="addEvent" type="button" class="btn btn-primary">Add Event</button>
             </div>
             </div>
         </div>
@@ -123,12 +191,15 @@ def calendar_route():
             </div>
             <div id="row" class="row flex-nowrap dayrow" id="hourly">
                     <div id="day" class="col card hour" id="hour-template" style="display: none;">
-                        <div class="card-header" style="background-color: #6464e5; color: white;">
+                        <div id="head" class="card-header" style="background-color: #6464e5; color: white;">
                             <h4 id="date" class="card-title" style="float: left; display: inline-block;margin-left: 20px;">Calendar</h4>
                             <img data-bs-toggle="modal" data-bs-target="#dayModal" id="expand" src="/static/icons/expand.svg" style="float: right; width: 20%; display: inline-block;">
                         </div>
-                        <div class="card-body">
-                            <p id="events"><b>Today is clear!</b></p>
+                        <div class="card-body" style="padding: 5px;!important;">
+                            <div id="events">
+                                <div id="event">No Events</div>
+                            </div>
+                            <img data-bs-toggle="modal" data-bs-target="#addEventModal" id="addevent" src="/static/icons/plus.svg" style="float: right; width: 10%; display: inline-block;">
                         </div>
                     </div>
             </div>
