@@ -105,6 +105,7 @@ def calendar_route():
                     </div>
                     <div class="card-body">
                         <p id="event-description"></p>
+                        <p id="event-time"></p>
                     </div>
                 </div>
             </div>

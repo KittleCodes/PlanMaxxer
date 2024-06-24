@@ -37,6 +37,121 @@ function Get(yourUrl){
     return Httpreq.responseText;          
 }
 
+function checkEvents(year, month, day) {
+    const matchingEvents = [];
+    const searchDate = new Date(year+"/"+month+"/"+day);
+    console.log(year + "/" + addLeadingZero(month) + "/" + addLeadingZero(day));
+    console.log(searchDate);
+    // Iterate through each event
+    data.forEach(event => {
+      const eventId = event[0];
+      const eventName = event[1];
+      const eventDescription = event[2];
+      const startDateTime = new Date(event[3]);
+      const endDateTime = event[4] !== "Never" ? new Date(event[4]) : null;
+      const allDay = event[5];
+      const repeat = event[6];
+      const color = event[7];
+  
+      // Check if the event occurs on the specified day
+      console.log("============================" + eventName);
+      //console.log(startDateTime.getFullYear() + "/" + (startDateTime.getMonth() + 1) + "/" + startDateTime.getDate());
+      //console.log(year + "/" + month + "/" + day);
+      console.log(startDateTime.getDay())
+      console.log(searchDate.getDay())
+      console.log("============================");
+      if (
+        startDateTime.getFullYear() == year &&
+        startDateTime.getMonth() + 1 == month &&
+        startDateTime.getDate() == day
+      ) {
+        matchingEvents.push({
+          eventId,
+          eventName,
+          eventDescription,
+          startDateTime,
+          endDateTime,
+          allDay,
+          color
+        });
+      }
+  
+      // Check for repeating events
+      switch (repeat) {
+        case 1: // Daily
+          console.log(startDateTime)
+          console.log(searchDate)
+          if (
+            startDateTime < searchDate
+          ) {
+            matchingEvents.push({
+              eventId,
+              eventName,
+              eventDescription,
+              startDateTime,
+              endDateTime,
+              allDay,
+              color
+            });
+          }
+          break;
+        case 2: // Weekly
+          if (
+              startDateTime < searchDate &&
+              startDateTime.getDay() == searchDate.getDay()
+          ) {
+            matchingEvents.push({
+              eventId,
+              eventName,
+              eventDescription,
+              startDateTime,
+              endDateTime,
+              allDay,
+              color
+            });
+          }
+          break;
+        case 3: // Monthly
+          if (
+              startDateTime < searchDate &&
+              startDateTime.getDate() == searchDate.getDate()
+          ) {
+            matchingEvents.push({
+              eventId,
+              eventName,
+              eventDescription,
+              startDateTime,
+              endDateTime,
+              allDay,
+              color
+            });
+          }
+          break;
+        case 4: // Yearly
+          if (
+              startDateTime < searchDate &&
+              startDateTime.getMonth() == searchDate.getMonth() &&
+              startDateTime.getDate() == searchDate.getDate()
+          ) {
+            matchingEvents.push({
+              eventId,
+              eventName,
+              eventDescription,
+              startDateTime,
+              endDateTime,
+              allDay,
+              color
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    });
+  
+    return matchingEvents;
+  }
+
 function containsSpecifiedDate(str, year, month, day) {
     let regex = new RegExp(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
     return regex.test(str);
@@ -48,6 +163,25 @@ function filterArraysWithSpecifiedDate(arrays, year, month, day) {
             typeof item === 'string' && containsSpecifiedDate(item, year, month, day)
         )
     );
+}
+
+function convertTo12HourFormat(dateTimeString) {
+    // Create a new Date object from the dateTimeString
+    let dateObj = new Date(dateTimeString);
+
+    // Extract hours and minutes from the date object
+    let hours = dateObj.getHours();
+    let minutes = dateObj.getMinutes();
+
+    // Determine AM/PM and convert hours to 12-hour format
+    let period = hours >= 12 ? 'PM' : 'AM';
+    let hours12 = hours % 12;
+    hours12 = hours12 === 0 ? 12 : hours12; // Convert 0 to 12 for midnight
+
+    // Format the time as hh:mm AM/PM
+    let formattedTime = hours12 + ':' + (minutes < 10 ? '0' : '') + minutes + ' ' + period;
+
+    return formattedTime;
 }
 
 function fillCalendar(month, year)
@@ -91,14 +225,15 @@ function fillCalendar(month, year)
             day.style = "background-color: #a8a8f7;";
         }
 
-        let filteredArrays = filterArraysWithSpecifiedDate(data, year, month, days);
+        let filteredArrays = checkEvents(year, month + 1, days);//filterArraysWithSpecifiedDate(data, year, month, days);
+        console.log(filteredArrays);
         if (filteredArrays.length > 0)
         {
             day.querySelector("#events").querySelector("#event").innerText = "";
             for (let i = 0; i < filteredArrays.length; i++) {
                 let event = day.querySelector("#events").querySelector("#event").cloneNode(true);
-                event.innerText = filteredArrays[i][1];
-                event.style = "background-color: "+filteredArrays[i][7]+"; border-radius: 100px; margin-bottom: 5px;";
+                event.innerText = filteredArrays[i].eventName;
+                event.style = "background-color: "+filteredArrays[i].color+"; border-radius: 100px; margin-bottom: 5px;";
                 day.querySelector("#events").appendChild(event);
             };
         }
@@ -147,12 +282,12 @@ nextyear.onclick = () =>
 $("dayModal").addEventListener('show.bs.modal', event => {
     const parent = event.relatedTarget.parentElement;
     const child = parent.querySelector('#date');
-    $("modal-date").innerText = viewingMonth + "/" + child.innerText + "/" + viewingYear;
+    $("modal-date").innerText = viewingMonth + 1 + "/" + child.innerText + "/" + viewingYear;
 
     [...document.getElementsByClassName("temporary")].map(n => n && n.remove());
 
-    let filteredArrays = filterArraysWithSpecifiedDate(data, viewingYear, viewingMonth, child.innerText);
-
+    let filteredArrays = checkEvents(viewingYear, viewingMonth + 1, child.innerText);//filterArraysWithSpecifiedDate(data, viewingYear, viewingMonth, child.innerText);
+    console.log(filteredArrays);
     if (filteredArrays.length > 0)
     {
         //day.querySelector("#events-body").querySelector("#event-card").innerText = "";
@@ -161,9 +296,17 @@ $("dayModal").addEventListener('show.bs.modal', event => {
             let event = $("events-body").querySelector("#event-card").cloneNode(true);
             event.style = "";
             event.classList.add("temporary");
-            event.querySelector(".card-header").style = "background-color: "+filteredArrays[i][7]+";";
-            event.querySelector("#event-title").innerText = filteredArrays[i][1];
-            event.querySelector("#event-description").innerText = filteredArrays[i][2];
+            event.querySelector(".card-header").style = "background-color: "+filteredArrays[i].color+";";
+            event.querySelector("#event-title").innerText = filteredArrays[i].eventName;
+            event.querySelector("#event-description").innerText = filteredArrays[i].eventDescription;
+
+            if (filteredArrays[i].allDay == "True")
+            {
+                event.querySelector("#event-time").innerText = "All Day"
+            } else
+            {
+                event.querySelector("#event-time").innerText = convertTo12HourFormat(filteredArrays[i].startDateTime) + " - " + convertTo12HourFormat(filteredArrays[i].endDateTime);
+            }
             //event.innerText = filteredArrays[i][1];
             //event.style = "background-color: "+filteredArrays[i][7]+"; border-radius: 100px; margin-bottom: 5px;";
             $("events-body").appendChild(event);
@@ -174,8 +317,8 @@ $("dayModal").addEventListener('show.bs.modal', event => {
 $("addEventModal").addEventListener('show.bs.modal', event => {
     const dateParent = event.relatedTarget.parentElement.parentElement;
     const dateElement = dateParent.querySelector('#date');
-    $("in-date").value = viewingYear+"-"+(addLeadingZero(viewingMonth))+"-"+(addLeadingZero(dateElement.innerText))+"T00:00";
-    $("in-date2").value = viewingYear+"-"+(addLeadingZero(viewingMonth))+"-"+(addLeadingZero(dateElement.innerText))+"T00:00";
+    $("in-date").value = viewingYear+"-"+(addLeadingZero(viewingMonth + 1))+"-"+(addLeadingZero(dateElement.innerText))+"T00:00";
+    $("in-date2").value = viewingYear+"-"+(addLeadingZero(viewingMonth + 1))+"-"+(addLeadingZero(dateElement.innerText))+"T00:00";
 });
 
 addEventButton.onclick = () => {
