@@ -190,12 +190,13 @@ def weather():
 </html>
 '''
 
-@app.route('/weather/api')
-def weather_api():
+@app.route('/weather/api/get-weather/<lat>/<lon>')
+def weather_api(lat, lon):
     global lastWeatherUpdate
     global cachedWeather
     if lastWeatherUpdate + 300 <= time.time():
-        request = requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/xxxxxxxx?unitGroup=us&key={api_token}&contentType=json")
+        # add check later for location so people dont run something silly
+        request = requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{lat}%2C{lon}?unitGroup=us&key={api_token}&contentType=json", timeout=10)
         lastWeatherUpdate = time.time()
         cachedWeather = request.json()
         return jsonify(cachedWeather)

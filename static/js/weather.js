@@ -29,6 +29,7 @@ const cloudcoverElement = $("cloudcover");
 const uvindexElement = $("uvindex");
 
 let current;
+let status;
 
 function Get(yourUrl){
     var Httpreq = new XMLHttpRequest();
@@ -97,8 +98,6 @@ function showDay(current)
 
 function getWeather()
 {
-    var data = JSON.parse(Get("/weather/api"));
-
     addressElement.innerText = data.resolvedAddress;
 
     current = data.currentConditions;
@@ -144,4 +143,25 @@ function getWeather()
     main.style = "padding: 2%;";
 }
 
-getWeather();
+
+var data;
+function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    
+    data = JSON.parse(Get("/weather/api/get-weather/"+latitude+"/"+longitude));
+    status = "";
+
+    getWeather(data);
+}
+    
+function error() {
+    status = "Unable to retrieve your location";
+}
+    
+if (!navigator.geolocation) {
+    status = "Geolocation is not supported by your browser";
+} else {
+    status = "Locating…";
+    navigator.geolocation.getCurrentPosition(success, error);
+}
