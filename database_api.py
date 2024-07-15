@@ -45,3 +45,27 @@ def calendar_add_event():
     con.close()
     
     return '{"code":"200"}'
+
+@app.route('/db/wardrobe/items')
+def wardrobe_items():
+    con = sqlite3.connect("wardrobe.db")
+    cur = con.cursor()
+#   cur.execute('''CREATE TABLE Clothing (
+#    id INTEGER PRIMARY KEY AUTOINCREMENT,
+#    name TEXT NOT NULL,
+#    clothing_type TEXT NOT NULL,
+#    color TEXT,
+#    size TEXT,
+#    brand TEXT,
+#    material TEXT,
+#    purchase_date DATE,
+#    price NUMERIC(10, 2),
+#    notes TEXT,
+#    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+#    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+#);
+#''')
+    cur.execute('SELECT * FROM clothing')
+    rows = cur.fetchall()
+    con.close()
+    return rows

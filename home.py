@@ -45,7 +45,7 @@ def home():
             <div class="card-body">
                 <h5 class="card-title">Wardrobe</h5>
                 <p class="card-text">View all the clothes that you own, or add new ones.</p>
-                <a href="#" class="btn btn-primary">View Wardrobe</a>
+                <a href="/wardrobe" class="btn btn-primary">View Wardrobe</a>
             </div>
             </div>
         </div>

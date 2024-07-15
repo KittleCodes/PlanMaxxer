@@ -30,6 +30,7 @@ const uvindexElement = $("uvindex");
 
 let current;
 let status;
+let viewingDate = new Date().getMonth()+"/"+new Date().getDate();
 
 function Get(yourUrl){
     var Httpreq = new XMLHttpRequest();
@@ -131,12 +132,22 @@ function getWeather()
     data.days.forEach(dayData => {
         const dayTime = new Date(dayData.datetimeEpoch*1000);
         const dayElement = dayTemplateElement.cloneNode(true);
+
         dayElement.style = "";
-        dayElement.querySelector('#time').innerText = dayTime.getMonth()+"/"+dayTime.getDate();
+        dayElement.id = dayTime.getMonth()+"/"+dayTime.getDate();
+        dayElement.querySelector('#time').innerText = dayTime.getMonth()+1+"/"+dayTime.getDate();
         dayElement.querySelector('#temp').innerText = dayData.temp+"°F";
         dayElement.querySelector('#status').src = "/static/conditions/"+dayData.icon+".svg";
         dailyElement.appendChild(dayElement);
-        dayElement.addEventListener('click', function (event) { addressElement.innerText = data.resolvedAddress; showDay(dayData); showHourly(data, data.days.indexOf(dayData))  });
+
+        dayElement.addEventListener('click', function (event) {
+            addressElement.innerText = data.resolvedAddress;
+            showDay(dayData);
+            showHourly(data, data.days.indexOf(dayData));
+            $(viewingDate).style = "background-color: #8282ff;";
+            dayElement.style = "background-color: #6666d4;";
+            viewingDate = dayElement.id;
+        });
     });
 
     loader.style = "display: none;";

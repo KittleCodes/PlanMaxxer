@@ -85,7 +85,7 @@ def calendar_route():
   <body>
     <nav class="navbar" style="background-color: #3bdddb;">
         <div class="container-fluid" >
-            <span class="navbar-brand mb-0 h1">PlanMaxxer - Weather</span>
+            <span class="navbar-brand mb-0 h1">PlanMaxxer - Calendar</span>
             <a class="nav-link" aria-current="page" href="/">Return Home</a>
         </div>
     </nav>
@@ -196,11 +196,11 @@ def calendar_route():
                             <h4 id="date" class="card-title" style="float: left; display: inline-block;margin-left: 20px;">Calendar</h4>
                             <img data-bs-toggle="modal" data-bs-target="#dayModal" id="expand" src="/static/icons/expand.svg" style="float: right; width: 20%; display: inline-block;">
                         </div>
-                        <div class="card-body" style="padding: 5px;!important;">
+                        <div class="card-body position-relative" style="padding: 5px;!important; padding-bottom: 40px;">
                             <div id="events">
                                 <div id="event">No Events</div>
                             </div>
-                            <img data-bs-toggle="modal" data-bs-target="#addEventModal" id="addevent" src="/static/icons/plus.svg" style="float: right; width: 10%; display: inline-block;">
+                            <img data-bs-toggle="modal" data-bs-target="#addEventModal" id="addevent" src="/static/icons/plus.svg" class="position-absolute bottom-0 end-0" style="float: right; width: 10%; display: inline-block; margin-bottom: 2px;">
                         </div>
                     </div>
             </div>
