@@ -332,7 +332,7 @@ addEventButton.onclick = () => {
     const in_color = $("in-color").value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/db/calendar/add_event", true);
+    xhr.open("POST", "/db/calendar/add-event", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         name: in_name,

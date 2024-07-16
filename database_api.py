@@ -1,6 +1,9 @@
 from __main__ import app
-from flask import request
+import os
+from flask import request, jsonify
 import sqlite3
+
+app.config['UPLOAD_FOLDER'] = 'static/clothing-images'
 
 @app.route('/db')
 def db():
@@ -24,13 +27,13 @@ def calendar_events():
     con.close()
     return rows
 
-@app.route('/db/calendar/add_event', methods=['POST'])
+@app.route('/db/calendar/add-event', methods=['POST'])
 def calendar_add_event():
     con = sqlite3.connect("calendar.db")
     cur = con.cursor()
-    
+
     data = request.json
-    
+
     name = data['name']
     desc = data['desc']
     date = data['date']
@@ -38,12 +41,12 @@ def calendar_add_event():
     all_day = data['all_day']
     repeat_option = data['repeat_option']
     color = data['color']
-    
+
     print(data)
     cur.execute(f'''INSERT INTO events (name, desc, date, date2, all_day, repeat_option, color) VALUES ("{name}", "{desc}", "{date}", "{date2}", "{all_day}", "{repeat_option}", "{color}")''')
     con.commit()
     con.close()
-    
+
     return '{"code":"200"}'
 
 @app.route('/db/wardrobe/items')
@@ -69,3 +72,35 @@ def wardrobe_items():
     rows = cur.fetchall()
     con.close()
     return rows
+
+@app.route('/db/wardrobe/add-item', methods=['POST'])
+def wardrobe_add_item():
+    con = sqlite3.connect("wardrobe.db")
+    cur = con.cursor()
+
+    name = request.form.get('name')
+    item_type = request.form.get('type')
+    color = request.form.get('color')
+    size = request.form.get('size')
+    brand = request.form.get('brand')
+    material = request.form.get('material')
+    notes = request.form.get('notes')
+    date = request.form.get('date')
+    price = request.form.get('price')
+
+    cur.execute('''INSERT INTO clothing (name, clothing_type, color, size, brand, material, notes, purchase_date, price) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
+                (name, item_type, color, size, brand, material, notes, date, price))
+
+    item_id = cur.lastrowid
+
+    image = request.files['image']
+    if image:
+        image_filename = f'{item_id}.png'
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
+        image.save(image_path)
+
+    con.commit()
+    con.close()
+    
+    return jsonify({"message": "Item added successfully"}), 200

@@ -54,6 +54,62 @@ def wardrobe():
     </nav>
     <div id="loader" style="position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;width: 100px;height: 100px;"><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div><div class="spinner-grow" role="status"></div></div>
     <main id="main" class="flex-shrink-0" style="padding: 1%;display: none;">
+    <div id="addItemModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #6464E5; color: white;">
+                <h5 id="modal-date" class="modal-title">Add Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #8282FF; color: white;">
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Name</span>
+                    <input id="item-name" type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Image</span>
+                    <input id="item-image" type="file" class="form-control" placeholder="Image">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Type</span>
+                    <input id="item-type" type="text" class="form-control" placeholder="Type">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Color</span>
+                    <input id="item-color" type="text" class="form-control" placeholder="Color">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Size</span>
+                    <input id="item-size" type="text" class="form-control" placeholder="Size">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Brand</span>
+                    <input id="item-brand" type="text" class="form-control" placeholder="Brand">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Material</span>
+                    <input id="item-material" type="text" class="form-control" placeholder="Material">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Notes</span>
+                    <textarea id="item-notes" class="form-control" aria-label="Notes"></textarea>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Purchase Date</span>
+                    <input id="purchase-date" type="datetime-local" class="form-control" placeholder="Purchase Date">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Price</span>
+                    <input id="item-price" type="text" class="form-control" placeholder="Price">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #6B6BE5;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="add-item" type="button" class="btn btn-primary">Add Item</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <div id="detailsModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -76,6 +132,16 @@ def wardrobe():
         </div>
     </div>
         <div class="container">
+            <div class="row" style="margin: 20px;">
+                <div class="col d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary d-flex align-items-center">
+                        <img src="/static/icons/search.svg" style="width: 20px; height: 20px; margin-right: 8px;"> Search
+                    </button>
+                    <button data-bs-toggle="modal" data-bs-target="#addItemModal" type="button" class="btn btn-primary d-flex align-items-center ms-2">
+                        <img src="/static/icons/add.svg" style="width: 25px; height: 25px; margin-right: 8px;"> Add
+                    </button>
+                </div>
+            </div>
             <div class="row row-cols-1 row-cols-md-3 g-4" id="wardrobe-items">
                 <div class="col" id="clothing-item" style="display: none;">
                     <div class="card hour">
