@@ -43,6 +43,39 @@ def wardrobe():
         margin:0 !important;
         padding:0 !important;
     }
+    .dropdown-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        border: 1px solid #d4d4d4;
+        z-index: 1;
+    }
+
+    .dropdown-content div {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content div:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown-content.show {
+        display: block!important;
+    }
+    
+    input {
+        border-radius: 0px 5px 5px 0px!important;
+        width: 100%;
+    }
     </style>
   </head>
   <body>
@@ -110,6 +143,73 @@ def wardrobe():
             </div>
         </div>
     </div>
+    <div id="searchModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #6464E5; color: white;">
+                <h5 id="modal-date" class="modal-title">Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #8282FF; color: white;">
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Name</span>
+                    <input id="search-name" type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Type</span>
+                    <div class="dropdown-container">
+                        <input id="search-type" type="text" class="form-control" placeholder="Type">
+                        <div id="type-dropdown" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Color</span>
+                    <div class="dropdown-container">
+                        <input id="search-color" type="text" class="form-control" placeholder="Color">
+                        <div id="color-dropdown" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Size</span>
+                    <div class="dropdown-container">
+                        <input id="search-size" type="text" class="form-control" placeholder="Size">
+                        <div id="size-dropdown" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Brand</span>
+                    <div class="dropdown-container">
+                        <input id="search-brand" type="text" class="form-control" placeholder="Brand">
+                        <div id="brand-dropdown" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Material</span>
+                    <div class="dropdown-container">
+                        <input id="search-material" type="text" class="form-control" placeholder="Material">
+                        <div id="material-dropdown" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Notes</span>
+                    <textarea id="search-notes" class="form-control" aria-label="Notes"></textarea>
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Purchase Date</span>
+                    <input id="search-purchase-date" type="datetime-local" class="form-control" placeholder="Purchase Date">
+                </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-text">Item Price</span>
+                    <input id="search-price" type="text" class="form-control" placeholder="Price">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #6B6BE5;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="search-item" type="button" class="btn btn-primary">Search</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <div id="detailsModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -134,7 +234,7 @@ def wardrobe():
         <div class="container">
             <div class="row" style="margin: 20px;">
                 <div class="col d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary d-flex align-items-center">
+                    <button data-bs-toggle="modal" data-bs-target="#searchModal" type="button" class="btn btn-primary d-flex align-items-center">
                         <img src="/static/icons/search.svg" style="width: 20px; height: 20px; margin-right: 8px;"> Search
                     </button>
                     <button data-bs-toggle="modal" data-bs-target="#addItemModal" type="button" class="btn btn-primary d-flex align-items-center ms-2">
@@ -160,8 +260,10 @@ def wardrobe():
         </div>
     </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="/static/js/wardrobe.js"></script>
+    <script src="/static/js/wardrobe-search.js"></script>
   </body>
 </html>
 '''

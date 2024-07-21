@@ -104,3 +104,56 @@ def wardrobe_add_item():
     con.close()
     
     return jsonify({"message": "Item added successfully"}), 200
+
+@app.route('/db/wardrobe/search/<field>')
+def search_color(field):
+    con = sqlite3.connect("wardrobe.db")
+    cur = con.cursor()
+
+    cur.execute(f'SELECT DISTINCT {field} FROM clothing')
+    rows = cur.fetchall()
+    con.close()
+    return rows
+
+@app.route('/db/wardrobe/search', methods=['GET'])
+def search():
+    con = sqlite3.connect("wardrobe.db")
+    cur = con.cursor()
+    args = request.args
+
+    base_query = "SELECT * FROM clothing WHERE 1=1"
+    params = []
+
+    if args.get('name'):
+        base_query += " AND name LIKE ?"
+        params.append(f'%{args["name"]}%')
+    if args.get('color'):
+        base_query += " AND color LIKE ?"
+        params.append(f'%{args["color"]}%')
+    if args.get('size'):
+        base_query += " AND size LIKE ?"
+        params.append(f'%{args["size"]}%')
+    if args.get('brand'):
+        base_query += " AND brand LIKE ?"
+        params.append(f'%{args["brand"]}%')
+    if args.get('type'):
+        base_query += " AND clothing_type LIKE ?"
+        params.append(f'%{args["type"]}%')
+    if args.get('material'):
+        base_query += " AND material LIKE ?"
+        params.append(f'%{args["material"]}%')
+    if args.get('notes'):
+        base_query += " AND notes LIKE ?"
+        params.append(f'%{args["notes"]}%')
+    if args.get('date'):
+        base_query += " AND purchase_date LIKE ?"
+        params.append(f'%{args["date"]}%')
+    if args.get('price'):
+        base_query += " AND price LIKE ?"
+        params.append(f'%{args["price"]}%')
+
+    cur.execute(base_query, params)
+    rows = cur.fetchall()
+
+    con.close()
+    return jsonify(rows)
