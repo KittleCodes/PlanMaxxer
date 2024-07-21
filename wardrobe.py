@@ -212,22 +212,23 @@ def wardrobe():
     </div>
     <div id="detailsModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-            <div class="modal-header" style="background-color: #6464E5; color: white;">
-                <h5 id="modal-date" class="modal-title">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id="events-body" class="modal-body" style="background-color: #8282FF; color: white;">
-                <div id="event-card" class="card hour" style="display: none;">
-                    <div class="card-header">
-                        <h3 id="event-title"></h3>
-                    </div>
-                    <div class="card-body">
-                        <p id="event-description"></p>
-                        <p id="event-time"></p>
-                    </div>
+            <div class="modal-content" style="text-align: center;">
+                <div class="modal-header" style="background-color: #6464E5; color: white; text-align: center;">
+                    <h5 id="details-name" class="details-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
+                <div id="details-body" class="modal-body" style="background-color: #8282FF; color: white; text-align: center;">
+                    <img onerror="this.onerror=null;this.src='/static/clothing-images/error.png';" style="width: 50%; display: block; margin: 0 auto;" id="details-image">
+                    <p><b>Notes: </b><span id="details-notes"></span></p>
+                    <p><b>Type: </b><span id="details-type"></span></p>
+                    <p><b>Color: </b><span id="details-color"></span></p>
+                    <p><b>Size: </b><span id="details-size"></span></p>
+                    <p><b>Brand: </b><span id="details-brand"></span></p>
+                    <p><b>Material: </b><span id="details-material"></span></p>
+                    <p><b>Date: </b><span id="details-date"></span></p>
+                    <p><b>Price: </b>$<span id="details-price"></span></p>
+
+                </div>
             </div>
         </div>
     </div>

@@ -3,6 +3,8 @@ var $ = (id) => {return document.getElementById(id);}
 const loader = $("loader");
 const main = $("main");
 
+let detailsModel = new bootstrap.Modal("#detailsModal", {});
+
 const wardrobeItems = $("wardrobe-items");
 const clothingItemTemplate = $("clothing-item");
 
@@ -59,4 +61,25 @@ addItemButton.addEventListener("click", () => {
     xhr.send(formData);
 
     new bootstrap.Modal($("addItemModal"), {}).hide();
+});
+
+$("detailsModal").addEventListener('show.bs.modal', event => {
+    const itemParent = event.relatedTarget.parentElement.parentElement;
+    const itemElement = itemParent.querySelector('#item-image');
+
+    const itemId = itemElement.src.match(/\/(\d+)\.png$/)[1];
+    data.forEach(item => {
+        if (item[0] == itemId) {
+            $("details-name").innerText = item[1];
+            $("details-image").src = itemElement.src;
+            $("details-type").innerText = item[2];
+            $("details-color").innerText = item[3];
+            $("details-size").innerText = item[4];
+            $("details-brand").innerText = item[5];
+            $("details-material").innerText = item[6];
+            $("details-notes").innerText = item[9];
+            $("details-date").innerText = item[7];
+            $("details-price").innerText = item[8];
+        }
+    });
 });
